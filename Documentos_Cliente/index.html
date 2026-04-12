@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bóveda de Entrega | Rinconcito Jarocho</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050a0f;
+            --accent: #22d3ee;
+            --primary: #0e86b0;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+        
+        .badge { display: inline-block; background: var(--card-bg); border: 1px solid var(--accent); color: var(--accent); padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin: 0 0 10px; color: var(--text-main); }
+        h1 span { color: var(--accent); }
+        .subtitle { color: var(--text-sub); margin-bottom: 40px; font-size: 1rem; }
+        
+        .main-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--primary); color: white; text-decoration: none; padding: 18px; border-radius: 16px; font-size: 1.1rem; font-weight: 700; font-family: 'Outfit'; box-shadow: 0 10px 25px rgba(14, 134, 176, 0.4); text-transform: uppercase; transition: transform 0.2s; margin-bottom: 30px; }
+        .main-btn:active { transform: scale(0.98); }
+        
+        .qr-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 25px; text-align: center; margin-bottom: 40px; }
+        .qr-card p { margin: 0 0 15px; color: var(--text-sub); font-size: 0.9rem; }
+        .qr-img { width: 180px; height: 180px; background: white; padding: 10px; border-radius: 12px; margin: 0 auto; }
+        
+        .section-title { font-family: 'Outfit'; font-size: 1.2rem; color: white; margin: 40px 0 20px; border-top: 1px solid var(--card-border); padding-top: 30px; }
+        
+        .doc-card { display: flex; align-items: center; gap: 15px; background: var(--card-bg); border: 1px solid var(--card-border); padding: 18px; border-radius: 16px; margin-bottom: 15px; text-decoration: none; color: inherit; transition: 0.2s; }
+        .doc-card:hover { background: rgba(255,255,255,0.06); }
+        .doc-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+        .doc-info { flex: 1; }
+        .doc-info strong { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+        .doc-info span { color: var(--text-sub); font-size: 0.85rem; }
+        .doc-dl { color: var(--text-sub); font-size: 1.4rem; padding-left: 10px; }
+        
+        .tl-item { display: flex; gap: 15px; margin-bottom: 25px; position: relative; }
+        .tl-item:not(:last-child)::after { content: ''; position: absolute; left: 7px; top: 25px; bottom: -15px; width: 2px; background: var(--card-border); }
+        .tl-dot { width: 16px; height: 16px; border-radius: 50%; background: #333; flex-shrink: 0; margin-top: 5px; z-index: 2; position: relative; }
+        .tl-dot.done { background: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+        .tl-dot.pending { background: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
+        .tl-text strong { display: block; font-size: 1.05rem; }
+        .tl-text span { color: var(--text-sub); font-size: 0.9rem; }
+        
+        .footer { margin-top: 60px; text-align: center; border-top: 1px solid var(--card-border); padding-top: 30px; }
+        .footer-logo { font-family: 'Outfit'; font-weight: 800; font-size: 0.8rem; letter-spacing: 2px; color: var(--text-sub); opacity: 0.5; margin-bottom: 20px; }
+        .wa-btn { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); color: var(--text-main); text-decoration: none; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; border: 1px solid var(--card-border); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="badge"><i class="ri-lock-unlock-line"></i> Bóveda de Entrega</div>
+    
+    <h1>Rinconcito <span>Jarocho</span></h1>
+    <div class="subtitle">Desarrollo de VCard Premium Interactiva de Ventas y Catálogo Digital.</div>
+    
+    <!-- URL EN VIVO -->
+    <a href="https://vcard-rinconcito-jarocho.vercel.app/" class="main-btn" target="_blank">
+        Abri Sistema En Vivo <i class="ri-arrow-right-up-line"></i>
+    </a>
+    
+    <!-- QR CARD -->
+    <div class="qr-card">
+        <p>Escanea este código o descárgalo para usarlo en mesas y cajas de cobro.</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https://vcard-rinconcito-jarocho.vercel.app/&bgcolor=FFFFFF&color=0e86b0&format=svg" alt="QR Code" class="qr-img">
+    </div>
+    
+    <div class="section-title">📂 Documentos del Proyecto</div>
+    
+    <a href="01_Requerimientos_Onboarding.pdf" target="_blank" download class="doc-card">
+        <div class="doc-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;"><i class="ri-clipboard-line"></i></div>
+        <div class="doc-info">
+            <strong>1. Requerimientos</strong>
+            <span>Lista de verificación de activos</span>
+        </div>
+        <i class="ri-download-2-line doc-dl"></i>
+    </a>
+    
+    <a href="02_Guia_de_Uso_Detallada.pdf" target="_blank" download class="doc-card">
+        <div class="doc-icon" style="background: rgba(34, 211, 238, 0.15); color: #22d3ee;"><i class="ri-book-open-line"></i></div>
+        <div class="doc-info">
+            <strong>2. Guía de Operación</strong>
+            <span>Comprender el Panel Admin y WhatsApp</span>
+        </div>
+        <i class="ri-download-2-line doc-dl"></i>
+    </a>
+    
+    <a href="03_Guia_de_Infraestructura.pdf" target="_blank" download class="doc-card">
+        <div class="doc-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;"><i class="ri-server-line"></i></div>
+        <div class="doc-info">
+            <strong>3. Infraestructura</strong>
+            <span>Detalles técnicos, hosting y respaldos.</span>
+        </div>
+        <i class="ri-download-2-line doc-dl"></i>
+    </a>
+    
+    <div class="section-title">⏱️ Status del Proyecto</div>
+    
+    <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-text">
+            <strong>Desarrollo Base</strong>
+            <span>Diseño visual y adaptación técnica.</span>
+        </div>
+    </div>
+    <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-text">
+            <strong>Integración Catálogo & Fotos Reales</strong>
+            <span>Procesamiento de 44 imágenes y sincronización de carrito.</span>
+        </div>
+    </div>
+    <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-text">
+            <strong>Aceleración & Panel Admin</strong>
+            <span>Optimización de 60fps en splash y CMS local de Inventario.</span>
+        </div>
+    </div>
+    <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-text">
+            <strong>Despliegue a Producción</strong>
+            <span>Sistema en línea via Vercel Edge.</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-logo">TREZE LABS<br>SISTEMAS DIGITALES E INFRAESTRUCTURA</div>
+        <a href="https://wa.me/522214092478?text=Equipo%20Treze%2C%20recib%C3%AD%20la%20entrega%20de%20mi%20VCard%20Rinconcito%20Jarocho." class="wa-btn" target="_blank">
+            <i class="ri-whatsapp-line" style="color: #22c55e; font-size: 1.2rem;"></i> Contactar a Soporte
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

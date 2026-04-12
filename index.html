@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rinconcito Jarocho | Souvenirs y Tradición</title>
+    
+    <!-- SEO & OpenGraph -->
+    <meta name="description" content="Descubre nuestra selección de souvenirs, café y artesanías tradicionales jarochas.">
+    
+    <!-- WhatsApp / Social Media Preview -->
+    <meta property="fb:app_id" content="966242223397117">
+    <meta property="og:site_name" content="Rinconcito Jarocho">
+    <meta property="og:title" content="Rinconcito Jarocho | Catálogo Digital">
+    <meta property="og:description" content="Descubre nuestra selección Premium de souvenirs tradicionales jarochos.">
+    <meta property="og:image" itemprop="image" content="https://vcard-rinconcito-jarocho.vercel.app/PORTADA_WA.jpg?v=10">
+    <meta property="og:image:secure_url" itemprop="image" content="https://vcard-rinconcito-jarocho.vercel.app/PORTADA_WA.jpg?v=10">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="600">
+    <meta property="og:image:height" content="600">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vcard-rinconcito-jarocho.vercel.app/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="PORTADA_WA.jpg?v=10">
+    <link rel="apple-touch-icon" href="PORTADA_WA.jpg?v=10">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons RemixIcon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="loading">
+
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splash">
+        
+        <h2 class="splash-title">
+            <span class="word delay-1 splash-highlight">Bienvenidos</span> 
+        </h2>
+
+        <div class="splash-video-container">
+            <video src="Animate_2D_logo_202604082018.mp4" autoplay muted playsinline loop class="splash-video" id="splashVideo"></video>
+        </div>
+        <p class="splash-tagline">#unpedacitodeveracruzcontigo</p>
+    </div>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="Logo.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 50%;"> 
+            <span>Rinconcito <span class="accent-text">Jarocho</span></span>
+        </div>
+        <div class="nav-actions">
+            <!-- Botón del carrito en cabecera -->
+            <button class="header-cart-btn" onclick="toggleCart()">
+                <i class="ri-shopping-cart-2-line"></i>
+                <span id="header-cart-count" class="cart-badge">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section (Premium UI) -->
+    <section class="hero">
+        <div class="hero-decorative-bg"></div>
+        <div class="hero-content">
+            <div class="status-badge" id="store-status">
+                <span class="status-dot"></span><span id="status-text">Verificando...</span>
+            </div>
+            <div class="logo-wrapper">
+                <img src="Logo.jpg" alt="Rinconcito Jarocho" class="hero-logo">
+            </div>
+            <h2>Jarochos pero con <br><span class="highlight">Estilo</span></h2>
+            <p>Elige tus recuerdos y súbelos al carrito listos para llevar.</p>
+            
+            <a href="https://maps.app.goo.gl/8WLdTJuhBBoKzhEu6" target="_blank" class="btn-location">
+                <i class="ri-map-pin-2-fill"></i> Trazar ruta al local
+            </a>
+        </div>
+    </section>
+
+    <!-- Categories Filter -->
+    <div class="categories-wrapper">
+        <div class="categories-scroll">
+            <button class="cat-btn active" data-filter="all">Todos</button>
+            <button class="cat-btn" data-filter="ropa">Ropa</button>
+            <button class="cat-btn" data-filter="tazas">Tazas y Vasos</button>
+            <button class="cat-btn" data-filter="gorras">Gorras</button>
+            <button class="cat-btn" data-filter="souvenirs">Recuerditos</button>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <main class="products-container" id="products-grid">
+        <!-- Products will be injected here via JS -->
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links-footer">
+            <a href="https://www.instagram.com/rinconcitojarocho_" target="_blank" class="contact-btn insta"><i class="ri-instagram-line"></i> Instagram</a>
+            <a href="https://wa.me/522291293657" target="_blank" class="contact-btn wa"><i class="ri-whatsapp-line"></i> Contacto</a>
+        </div>
+        <p style="font-size: 0.75rem; margin-bottom: 5px;">&copy; 2026 Rinconcito Jarocho.</p>
+        <a href="https://trezelabs.com" target="_blank" style="display: flex; justify-content: center; text-decoration: none; margin-top: 24px; opacity: 0.6; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+            <img src="assets/footer.png" alt="Ingeniería Digital por Treze Labs" style="max-height: 38px; object-fit: contain; filter: brightness(0);">
+        </a>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="cart-overlay" id="cart-modal">
+        <div class="cart-drawer">
+            <div class="cart-header">
+                <h3>Tu Pedido</h3>
+                <button class="close-cart" onclick="toggleCart()">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            
+            <div class="cart-body" id="cart-items">
+                <!-- Cart items list -->
+                <div class="empty-cart-msg">Tu carrito está vacío 🥺<br>¡Agrega unos souvenirs jarochos!</div>
+            </div>
+            
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total-price">$0.00</span>
+                </div>
+                <!-- Formulario super corto para el pedido -->
+                <div class="checkout-form" id="checkout-form" style="display: none;">
+                    <input type="text" id="client-name" placeholder="Escribe tu nombre..." class="checkout-input">
+                    
+                    <!-- Módulo de Regalo VIP -->
+                    <label class="gift-toggle" for="is-gift">
+                        <input type="checkbox" id="is-gift" onchange="toggleGiftNote()"> 
+                        <span>¿Es un pedido para regalo? 🎁</span>
+                    </label>
+                    <textarea id="gift-note" placeholder="Escribe tu dedicatoria especial aquí..." class="checkout-input gift-note-input" style="display: none;"></textarea>
+                </div>
+                <button class="btn-checkout" id="btn-checkout" onclick="sendWhatsAppOrder()" disabled>
+                    <i class="ri-whatsapp-line"></i> Enviar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Toast for Add to Cart -->
+    <div class="toast" id="toast">
+        <i class="ri-check-line"></i> ¡Agregado al carrito!
+    </div>
+
+    <!-- MÁGICO Botón de Carrito Flotante (Siempre Visible) -->
+    <button class="floating-cart-btn" id="floating-btn" onclick="toggleCart()">
+        <i class="ri-shopping-cart-2-fill"></i>
+        <div class="floating-cart-count" id="floating-cart-count">0</div>
+    </button>
+
+    <!-- Scripts -->
+    <script src="app.js" charset="utf-8"></script>
+
+<!-- TREZE SIGNATURE -->
+<a href="https://wa.me/522214092478?text=Hola%20Treze%20Labs%2C%20me%20gustar%C3%ADa%20solicitar%20el%20desarrollo%20de%20un%20sistema%20profesional." target="_blank" style="display: flex; justify-content: center; text-decoration: none; margin-top: 24px; margin-bottom: 24px; opacity: 0.6; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+    <img src="assets/footer.png" alt="Ingeniería Digital por Treze Labs" style="max-height: 38px; object-fit: contain; filter: brightness(0);">
+</a>
+
+</body>
+</html>

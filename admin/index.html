@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Rinconcito Jarocho</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #F79B37;
+            --secondary: #2C2C2C;
+            --bg: #F5F5F7;
+            --white: #FFFFFF;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            margin: 0; padding: 20px;
+        }
+        .admin-header {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 {
+            margin: 0; font-size: 1.5rem; color: var(--secondary);
+        }
+        .table-container {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #EEE;
+        }
+        th {
+            background: #FAFAFA;
+            font-weight: 600;
+            color: #666;
+        }
+        .product-img {
+            width: 50px; height: 50px; border-radius: 8px; object-fit: cover;
+        }
+        .input-price {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #DDD;
+            border-radius: 8px;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: "";
+            height: 16px; width: 16px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(26px); }
+        
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(247, 155, 55, 0.3);
+        }
+        .toast {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            background: #2C2C2C; color: white; padding: 15px 30px;
+            border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: bold; z-index: 10000;
+        }
+        .toast.show { bottom: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-header">
+        <div>
+            <h1>📦 Treze Labs Admin</h1>
+            <p style="color: #666; margin: 5px 0 0 0;">Gestión global en la nube (JSONBin)</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button id="emergency-btn" class="btn-save" style="background: #ef4444;" onclick="toggleEmergency()">
+                <i class="ri-error-warning-line"></i> CERRAR AHORA
+            </button>
+            <button class="btn-save" onclick="saveChanges()"><i class="ri-save-line"></i> Guardar Cambios</button>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Precio ($)</th>
+                    <th>Disponible</th>
+                </tr>
+            </thead>
+            <tbody id="inventory-list">
+                <!-- Se inyecta con JS -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="toast" class="toast">✅ Cambios guardados con éxito</div>
+
+    <script src="../app.js"></script>
+    <script>
+        document.body.classList.remove('loading');
+        const list = document.getElementById('inventory-list');
+        
+        let currentRecord = {
+            isEmergencyClosed: false,
+            inventoryOverrides: {}
+        };
+
+        window.onload = async () => {
+            await fetchLatestData();
+            renderTable();
+        };
+
+        async function fetchLatestData() {
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { "X-Master-Key": MASTER_KEY }
+                });
+                const data = await res.json();
+                currentRecord = data.record;
+            } catch (e) {
+                console.error("Error fetching latest data", e);
+            }
+        }
+
+        function renderTable() {
+            list.innerHTML = "";
+            
+            // Update emergency button
+            const btn = document.getElementById('emergency-btn');
+            if(currentRecord.isEmergencyClosed) {
+                btn.innerHTML = '<i class="ri-checkbox-circle-line"></i> RE-ABRIR';
+                btn.style.background = "#22c55e";
+            } else {
+                btn.innerHTML = '<i class="ri-error-warning-line"></i> CERRAR AHORA';
+                btn.style.background = "#ef4444";
+            }
+
+            productsDB.forEach(p => {
+                const ovr = currentRecord.inventoryOverrides[p.id] || {};
+                const price = ovr.price !== undefined ? ovr.price : p.price;
+                const inStock = ovr.inStock !== false;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="../${encodeURI(p.img)}" class="product-img" onerror="this.src=''"/></td>
+                    <td style="font-weight: 600;">${p.title}</td>
+                    <td><span style="background: #EEE; padding: 4px 10px; border-radius: 10px; font-size: 0.85rem;">${p.category}</span></td>
+                    <td><input type="number" class="input-price" id="price-${p.id}" value="${price}"></td>
+                    <td>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="stock-${p.id}" ${inStock ? 'checked' : ''}>
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                `;
+                list.appendChild(tr);
+            });
+        }
+
+        function toggleEmergency() {
+            currentRecord.isEmergencyClosed = !currentRecord.isEmergencyClosed;
+            renderTable();
+        }
+
+        async function saveChanges() {
+            // Update currentRecord from inputs
+            productsDB.forEach(p => {
+                const priceVal = document.getElementById(`price-${p.id}`).value;
+                const stockVal = document.getElementById(`stock-${p.id}`).checked;
+                currentRecord.inventoryOverrides[p.id] = {
+                    price: parseFloat(priceVal),
+                    inStock: stockVal
+                };
+            });
+
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Master-Key": MASTER_KEY
+                    },
+                    body: JSON.stringify(currentRecord)
+                });
+                
+                if(res.ok) {
+                    showToast("✅ Cambios guardados en la nube");
+                } else {
+                    throw new Error("Error al guardar");
+                }
+            } catch (e) {
+                showToast("❌ Error de conexión");
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
